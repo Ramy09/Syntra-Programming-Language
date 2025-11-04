@@ -15,9 +15,9 @@ TOKEN_SPEC = [
     ("COMMENT",   r"note[^\n]*"),                # Comments
     ("STRING",    r'"[^"\n]*"'),                 # "text"
     ("NUMBER",    r"\d+\.\d+|\d+"),              # Numbers
-    ("KEYWORD",   r"\b(?:use|action|begin|point|distance|name|flag|show|get|when|otherwise|loop|repeat|give|space|note)\b"),
+    ("KEYWORD",   r"\b(?:use|action|point|distance|name|flag|show|get|when|otherwise|loop|repeat|give|space|note)\b"),
     ("IDENT",     r"[A-Za-z_][A-Za-z0-9_]*"),    # Identifiers
-    ("OP",        r"[+\-*/=<>!]+"),              # Operators
+    ("OPERATOR",        r"[+\-*/=<>!]+"),              # Operators
     ("SYMBOL",    r"[{}();,]"),                  # Symbols
     ("NEWLINE",   r"\n"),                        # Line breaks
     ("SKIP",      r"[ \t]+"),                    # Spaces/tabs
@@ -33,7 +33,7 @@ def syntra_scanner(code):
         kind = match.lastgroup
         value = match.group()
 
-        if kind in {"SKIP", "NEWLINE"}:
+        if kind in {"SKIP", "NEWLINE", "COMMENT"}:
             continue
         elif kind == "NUMBER":
             value = float(value) if "." in value else int(value)
@@ -50,30 +50,14 @@ def syntra_scanner(code):
 # 🔹 Main Program
 # ----------------------------------
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python scanner.py filename")
-        sys.exit(1)
 
-    filename = sys.argv[1]
-
-    try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            syntra_code = f.read()
-    except FileNotFoundError:
-        print(FileNotFoundError)
-        sys.exit(1)
-    except Exception as e:
-        print(f"Error: {e}")
-        sys.exit(1)
-            
-    print(f"🔸 Scanning Syntra code from: {filename}\n")
-    print("🔍 Scanning...\n")
-
-    try:
-        result = syntra_scanner(syntra_code)
-        print("=== 🧾 Tokens ===")
-        for token in result:
-            print(token)
-    except SyntaxError as e:
-        print(f"Lexical Error: {e}")
-        sys.exit(1)
+    # Opening and reading example code
+    filename = 'example1.syntra'
+    f = open(filename)
+    syntra_code = f.read()        
+    
+    # Scanning and printing    
+    tokens = syntra_scanner(syntra_code)
+    print("=== Tokens ===")
+    for token in tokens:
+    	print(token)
