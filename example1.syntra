@@ -1,0 +1,7 @@
+note Our first program
+
+use core;
+
+action begin() {
+    show "Hello, Syntra!";
+}
