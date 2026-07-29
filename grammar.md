@@ -39,7 +39,7 @@ N = {
 
 # Production Rules (P)
 
-Program      → UseDecl* Action*
+Program      → UseDecl* VarDecl* Action*
 
 UseDecl      → "use" IDENTIFIER ";"
 

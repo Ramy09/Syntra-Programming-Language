@@ -1,0 +1,7 @@
+note Our first program
+
+use core;
+
+action main() {
+    show "Hello, World!";
+}
